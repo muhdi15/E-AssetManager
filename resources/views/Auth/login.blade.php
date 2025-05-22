@@ -13,17 +13,30 @@
     
     <!-- Ilustrasi -->
     <div class="lg:w-1/2 hidden lg:flex items-center justify-center bg-sky-100">
-      <img src="https://via.placeholder.com/500x500?text=Asset+Illustration" alt="Ilustrasi Aset" class="object-contain p-10"/>
+      <img src="{{asset('Logo E-Asset Manager\Logo E-AssetManager.png')}}" alt="Ilustrasi Aset" class="object-contain p-10"/>
     </div>
 
     <!-- Form Login -->
     <div class="w-full lg:w-1/2 p-10">
       <div class="text-center mb-8">
-        <h2 class="text-3xl font-bold text-sky-600">Selamat Datang 👋</h2>
+        <h2 class="text-3xl font-bold text-sky-600">E-Asset Manager 👋</h2>
         <p class="text-gray-500 mt-2">Masuk untuk mengelola aset Anda</p>
       </div>
+      @if (session('success'))
+        <div class="bg-green-100 text-green-800 p-3 rounded mb-4">
+            {{ session('success') }}
+        </div>
+    @endif
 
-      <form class="space-y-6">
+    @if (session('error'))
+        <div class="bg-red-100 text-red-800 p-3 rounded mb-4">
+            {{ session('error') }}
+        </div>
+    @endif
+
+
+      <form method="POST" action="{{route('login.post')}}" class="space-y-6">
+        @csrf
         <div>
           <label for="email" class="block text-gray-700 mb-1">Email</label>
           <input
@@ -42,13 +55,13 @@
           />
         </div>
 
-        <div class="flex items-center justify-between text-sm text-gray-600">
+        {{-- <div class="flex items-center justify-between text-sm text-gray-600">
           <label class="flex items-center">
             <input type="checkbox" class="h-4 w-4 text-sky-600" />
             <span class="ml-2">Ingat saya</span>
           </label>
           <a href="#" class="text-sky-600 hover:underline">Lupa Password?</a>
-        </div>
+        </div> --}}
 
         <button
           type="submit"
@@ -60,7 +73,7 @@
 
       <p class="mt-6 text-center text-sm text-gray-600">
         Belum punya akun?
-        <a href="#" class="text-sky-600 font-medium hover:underline">Daftar Sekarang</a>
+        <a href="{{route('register')}}" class="text-sky-600 font-medium hover:underline">Daftar Sekarang</a>
       </p>
     </div>
   </div>

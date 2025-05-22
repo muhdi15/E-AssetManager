@@ -26,6 +26,7 @@
       <a href="#" class="flex items-center text-gray-600 hover:text-sky-600">Laporan</a>
       <a href="#" class="flex items-center text-gray-600 hover:text-sky-600">Pengguna</a>
       <a href="#" class="flex items-center text-gray-600 hover:text-sky-600">Pengaturan</a>
+      <a href="{{route('logout')}}" class="flex items-center text-gray-600 hover:text-sky-600">Logout</a>
     </nav>
   </aside>
 
@@ -38,7 +39,7 @@
         </svg>
       </button>
       <h2 class="text-xl font-semibold text-sky-700">Dashboard Admin</h2>
-      <div class="text-gray-600">Admin Fajri</div>
+      <div class="text-gray-600">{{Auth::user()->name}}</div>
     </header>
 
     <main class="flex-1 p-6 bg-sky-50">

@@ -12,7 +12,7 @@
 
     <!-- Ilustrasi -->
     <div class="lg:w-1/2 hidden lg:flex items-center justify-center bg-sky-100">
-      <img src="https://via.placeholder.com/500x500?text=Register+Illustration" alt="Ilustrasi Register" class="object-contain p-10"/>
+      <img src="{{asset('Logo E-Asset Manager/Register Logo.png')}}" alt="Ilustrasi Register" class="object-contain p-10"/>
     </div>
 
     <!-- Form Register -->
@@ -21,8 +21,17 @@
         <h2 class="text-3xl font-bold text-sky-600">Buat Akun Baru</h2>
         <p class="text-gray-500 mt-2">Daftar untuk mulai mengelola aset kantor Anda</p>
       </div>
-
-      <form class="space-y-6" method="POST" action="/register">
+      @if ($errors->any())
+        <div class="bg-red-100 text-red-800 p-3 rounded mb-4">
+          <ul class="list-disc list-inside">
+            @foreach ($errors->all() as $error)
+              <li>{{ $error }}</li>
+            @endforeach
+          </ul>
+        </div>
+      @endif
+      <form class="space-y-6" method="POST" action="{{route('register.post')}}">
+        @csrf        
         <div>
           <label for="name" class="block text-gray-700 mb-1">Nama Lengkap</label>
           <input
@@ -76,7 +85,7 @@
 
       <p class="mt-6 text-center text-sm text-gray-600">
         Sudah punya akun?
-        <a href="/login" class="text-sky-600 font-medium hover:underline">Masuk di sini</a>
+        <a href="{{route('login')}}" class="text-sky-600 font-medium hover:underline">Masuk di sini</a>
       </p>
     </div>
   </div>
