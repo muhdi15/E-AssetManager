@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Register | E-Asset Manager</title>
-  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="{{asset('tailwind.js')}}"></script>
 </head>
 <body class="bg-sky-50 min-h-screen flex items-center justify-center">
 

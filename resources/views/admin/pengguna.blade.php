@@ -1,84 +1,112 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Manajemen Pengguna - E-Asset Manager</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
-</head>
-<body class="bg-sky-50 text-gray-800" x-data="{ sidebarOpen: false }">
+@extends('admin/master')
 
-  <!-- Sidebar -->
-  <aside 
-    class="fixed inset-y-0 left-0 bg-white border-r border-gray-200 w-64 p-6 space-y-6 transform transition-transform duration-300 md:translate-x-0"
-    :class="sidebarOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'"
-  >
-    <h1 class="text-2xl font-bold text-sky-700 mb-8">E-Asset Manager</h1>
-    <nav class="space-y-4">
-      <a href="#" class="flex items-center text-gray-600 hover:text-sky-600">Dashboard</a>
-      <a href="#" class="flex items-center text-gray-600 hover:text-sky-600">Manajemen Aset</a>
-      <a href="#" class="flex items-center text-gray-600 hover:text-sky-600">Laporan</a>
-      <a href="#" class="flex items-center text-sky-600 font-semibold">Pengguna</a>
-      <a href="#" class="flex items-center text-gray-600 hover:text-sky-600">Pengaturan</a>
-    </nav>
-  </aside>
-
-  <!-- Main Content -->
-  <div class="md:pl-64 min-h-screen flex flex-col">
-    <header class="bg-white shadow flex items-center justify-between p-4 border-b border-gray-200">
-      <button @click="sidebarOpen = !sidebarOpen" class="md:hidden p-2 rounded-md hover:bg-sky-100 text-sky-700">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M4 6h16M4 12h16M4 18h16"/>
-        </svg>
-      </button>
-      <h2 class="text-xl font-semibold text-sky-700">Manajemen Pengguna</h2>
-      <div class="text-gray-600">Admin Fajri</div>
-    </header>
-
+@section('content')
+    <!-- Main Content -->
     <main class="flex-1 p-6 bg-sky-50">
-      <div class="mb-6 flex justify-between items-center">
-        <h3 class="text-lg font-semibold text-sky-700">Daftar Pengguna</h3>
-        <button class="bg-sky-600 hover:bg-sky-700 text-white px-4 py-2 rounded-md shadow">
-          + Tambah Pengguna
-        </button>
-      </div>
 
-      <div class="overflow-x-auto bg-white rounded-lg shadow">
-        <table class="min-w-full divide-y divide-gray-200">
-          <thead class="bg-sky-100 text-sky-700">
-            <tr>
-              <th class="px-4 py-2 text-left text-sm font-semibold">Nama</th>
-              <th class="px-4 py-2 text-left text-sm font-semibold">Email</th>
-              <th class="px-4 py-2 text-left text-sm font-semibold">Role</th>
-              <th class="px-4 py-2 text-left text-sm font-semibold">Aksi</th>
-            </tr>
-          </thead>
-          <tbody class="divide-y divide-gray-100 text-sm">
-            <tr>
-              <td class="px-4 py-2 whitespace-nowrap">M. Fajri Muallim</td>
-              <td class="px-4 py-2 whitespace-nowrap">fajri@example.com</td>
-              <td class="px-4 py-2 whitespace-nowrap"><span class="bg-green-100 text-green-700 px-2 py-1 rounded">Admin</span></td>
-              <td class="px-4 py-2 whitespace-nowrap">
-                <button class="text-blue-600 hover:underline mr-2">Edit</button>
-                <button class="text-red-600 hover:underline">Hapus</button>
-              </td>
-            </tr>
-            <tr>
-              <td class="px-4 py-2 whitespace-nowrap">Siti Aminah</td>
-              <td class="px-4 py-2 whitespace-nowrap">aminah@example.com</td>
-              <td class="px-4 py-2 whitespace-nowrap"><span class="bg-gray-100 text-gray-700 px-2 py-1 rounded">User</span></td>
-              <td class="px-4 py-2 whitespace-nowrap">
-                <button class="text-blue-600 hover:underline mr-2">Edit</button>
-                <button class="text-red-600 hover:underline">Hapus</button>
-              </td>
-            </tr>
-            <!-- Tambahkan lebih banyak baris sesuai data -->
-          </tbody>
-        </table>
-      </div>
+        @if (session('success'))
+            <div class="mb-4 px-4 py-3 bg-green-100 border border-green-300 text-green-800 rounded">
+                {{ session('success') }}
+            </div>
+        @endif
+
+        <!-- Stats Cards -->
+        <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+            <div class="bg-white rounded-lg shadow p-5 text-center">
+                <p class="text-gray-500">Total Pengguna</p>
+                <p class="text-3xl font-bold text-sky-700">{{ $totalUser }}</p>
+            </div>
+            <div class="bg-white rounded-lg shadow p-5 text-center">
+                <p class="text-gray-500">Total Active</p>
+                <p class="text-3xl font-bold text-green-600">{{ $totalActive }}</p>
+            </div>
+            <div class="bg-white rounded-lg shadow p-5 text-center">
+                <p class="text-gray-500">Total Non-Active</p>
+                <p class="text-3xl font-bold text-yellow-600">{{ $totalInactive }}</p>
+            </div>
+            <div class="bg-white rounded-lg shadow p-5 text-center">
+                <p class="text-gray-500">Total Pending</p>
+                <p class="text-3xl font-bold text-red-600">{{ $totalPending }}</p>
+            </div>
+        </section>
+
+        <div class="mb-6 flex justify-between items-center">
+            <h3 class="text-lg font-semibold text-sky-700">Daftar Pengguna</h3>
+            <a href="{{ route('createUser') }}"
+               class="bg-sky-600 hover:bg-sky-700 text-white px-4 py-2 rounded-md shadow">
+                + Tambah Pengguna
+            </a>
+        </div>
+
+        <div class="overflow-x-auto bg-white rounded-lg shadow">
+            <table class="min-w-full divide-y divide-gray-200">
+                <thead class="bg-sky-100 text-sky-700">
+                    <tr>
+                        <th class="px-4 py-2 text-left text-sm font-semibold">Nama</th>
+                        <th class="px-4 py-2 text-left text-sm font-semibold">Email</th>
+                        <th class="px-4 py-2 text-left text-sm font-semibold">Status</th>
+                        <th class="px-4 py-2 text-left text-sm font-semibold">Role</th>
+                        <th class="px-4 py-2 text-left text-sm font-semibold">Aksi</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-100 text-sm">
+                    @foreach ($data as $item)
+                        <tr>
+                            <td class="px-4 py-2 whitespace-nowrap">{{ $item->name }}</td>
+                            <td class="px-4 py-2 whitespace-nowrap">{{ $item->email }}</td>
+                            <td class="px-4 py-2 whitespace-nowrap">
+                                <span class="
+                                    @if($item->status == 'active') bg-green-100 text-green-700
+                                    @elseif($item->status == 'non-active') bg-yellow-100 text-yellow-700
+                                    @elseif($item->status == 'pending') bg-red-100 text-red-700
+                                    @else bg-gray-100 text-gray-700
+                                    @endif
+                                    px-2 py-1 rounded
+                                ">
+                                    {{ $item->status }}
+                                </span>
+                            </td>
+                            <td class="px-4 py-2 whitespace-nowrap">
+                                <span class="
+                                    @if($item->role == 'admin') bg-blue-100 text-blue-700
+                                    @elseif($item->role == 'user') bg-gray-100 text-gray-700
+                                    @else bg-sky-100 text-sky-700
+                                    @endif
+                                    px-2 py-1 rounded
+                                ">
+                                    {{ $item->role }}
+                                </span>
+                            </td>
+                            <td class="px-4 py-2 whitespace-nowrap">
+                                <div class="flex flex-wrap gap-2">
+                                    <a href="{{ route('editUser', $item->id) }}"
+                                       class="text-sm bg-blue-100 text-blue-700 px-3 py-1 rounded hover:bg-blue-200 transition">
+                                        Edit
+                                    </a>
+
+                                    @if ($item->status === 'active')
+                                        <form method="POST" action="{{ route('deactivateUser', $item->id) }}">
+                                            @csrf
+                                            <button type="submit"
+                                                    class="text-sm bg-yellow-100 text-yellow-700 px-3 py-1 rounded hover:bg-yellow-200 transition">
+                                                Nonaktifkan
+                                            </button>
+                                        </form>
+                                    @elseif (in_array($item->status, ['non-active', 'pending']))
+                                        <form method="POST" action="{{ route('activateUser', $item->id) }}">
+                                            @csrf
+                                            <button type="submit"
+                                                    class="text-sm bg-green-100 text-green-700 px-3 py-1 rounded hover:bg-green-200 transition">
+                                                Aktifkan
+                                            </button>
+                                        </form>
+                                    @endif
+                                </div>
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
     </main>
-  </div>
-
-</body>
-</html>
+@endsection
