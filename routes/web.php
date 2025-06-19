@@ -25,6 +25,14 @@ Route::middleware(['auth', RoleMiddleware::class . ':admin'])->group(function ()
     Route::get('/editUser/{id}', [SessionController::class, 'editUser'])->name('editUser');
     Route::post('/editUserPost/{id}', [SessionController::class, 'editUserPost'])->name('editUserPost');
 
+    Route::get('/tambahAset', [SessionController::class, 'tambahAset'])->name('tambahAset');
+    Route::post('/tambahAsetPost', [SessionController::class, 'tambahAsetPost'])->name('tambahAsetPost');
+
+    Route::delete('/asetHapus/{id}', [SessionController::class, 'hapusAset'])->name('hapusAset');
+
+    Route::get('/asetEdit/{id}', [SessionController::class, 'editAset'])->name('editAset');
+    Route::put('/asetUpdate/{id}', [SessionController::class, 'updateAset'])->name('updateAset');
+
 // Route untuk user
 Route::middleware(['auth', RoleMiddleware::class . ':user'])->group(function () {
     Route::get('/userDashboard', [SessionController::class, 'userDashboard'])->name('userDashboard');

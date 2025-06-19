@@ -8,7 +8,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
-
+use App\Models\History;
 class SessionController extends Controller
 {
     public function adminDashboard()
@@ -145,9 +145,91 @@ class SessionController extends Controller
                          ->with('success', 'Data pengguna berhasil diperbarui.');
     }
 
+    public function tambahAset(){
+        return view('admin/tambahAset');
+    }
+
+    public function tambahAsetPost(Request $request)
+{
+    // Validasi input
+    $request->validate([
+        'nama_aset' => 'required|string|max:255',
+        'jenis_aset' => 'required|in:elektronik,furniture,peralatan_kantor,lainnya',
+        'kondisi' => 'required|in:baik,rusak_ringan,rusak_berat,hilang',
+        'lokasi' => 'required|string|max:255',
+    ]);
+
+    try {
+        Asset::create([
+            'nama_aset' => $request->nama_aset,
+            'jenis_aset' => $request->jenis_aset,
+            'kondisi' => $request->kondisi,
+            'lokasi' => $request->lokasi,
+            'tambahkan_oleh' => auth()->user()->name ?? 'admin', // atau ambil dari session
+            'di_perbarui_oleh' => null, // default null saat pertama ditambahkan
+            // 'tanggal_penambahan' tidak perlu diisi karena pakai useCurrent()
+        ]);
+
+        return redirect()->back()->with('success', 'Aset berhasil ditambahkan.');
+    } catch (\Exception $e) {
+        return redirect()->back()->with('error', 'Gagal menambahkan aset: ' . $e->getMessage());
+    }
+}
+
+    public function hapusAset($id){
+        $aset = Asset::find($id);
+        if ($aset) {
+            $aset->delete();
+            return redirect()->back()->with('success', 'Aset berhasil dihapus.');
+        }
+        return redirect()->back()->with('error', 'Aset tidak ditemukan.');
+    }
+
+    public function editAset($id)
+    {
+        $aset = Asset::findOrFail($id);
+        return view('admin.editAset', compact('aset'));
+    }
+
+    public function updateAset(Request $request, $id)
+{
+    $request->validate([
+        'nama_aset' => 'required|string|max:255',
+        'jenis_aset' => 'required|in:elektronik,furniture,peralatan_kantor,lainnya',
+        'kondisi' => 'required|in:baik,rusak_ringan,rusak_berat,hilang',
+        'lokasi' => 'required|string|max:255',
+        'tanggal_penambahan' => 'required|date',
+    ]);
+
+    $aset = Asset::findOrFail($id);
+    $aset->nama_aset = $request->nama_aset;
+    $aset->jenis_aset = $request->jenis_aset;
+    $aset->kondisi = $request->kondisi;
+    $aset->lokasi = $request->lokasi;
+    $aset->tanggal_penambahan = $request->tanggal_penambahan;
+    $aset->di_perbarui_oleh = auth()->user()->name ?? 'admin'; // atau ID user
+    $aset->save();
+
+    return redirect()->route('manajemenAsetAdmin')->with('success', 'Aset berhasil diperbarui.');
+}
+
+    
+
+
+
+
+
+
+    // ini dibawah ini adalah Kumpulan Function untuk User
+
     public function userDashboard(){
         $data = Asset::all();
-        return view('user/dashboard',compact('data'));
+        $total = $data->count();
+        $totalBaik = $data->where('kondisi','baik')->count();
+        $totalRusakRingan = $data->where('kondisi','rusak_ringan')->count();
+        $totalRusakBerat= $data->where('kondisi','rusak_berat')->count();
+        $totalHilang = $data->where('kondisi','hilang')->count();
+        return view('user/dashboard',compact('data','total','totalBaik','totalRusakRingan','totalRusakBerat','totalHilang'));
     }
 
     public function lihatAsetUser(){

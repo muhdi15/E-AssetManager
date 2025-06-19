@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>@yield('title', 'Dashboard Admin - E-Asset Manager')</title>
-  <script src="{{asset('tailwind.js')}}"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
   <script src="{{asset('cdn.min.js')}}" defer></script>
 </head>
 <body class="bg-sky-50 text-gray-800" x-data="{ sidebarOpen: false }">
@@ -23,7 +23,6 @@
         Dashboard
       </a>
       <a href="{{ route('manajemenAsetAdmin') }}" class="flex items-center text-gray-600 hover:text-sky-600">Manajemen Aset</a>
-      <a href="#" @click.prevent class="flex items-center text-gray-400 cursor-not-allowed">Laporan (Coming Soon)</a>
       <a href="{{ route('penggunaAdmin') }}" class="flex items-center text-gray-600 hover:text-sky-600">Pengguna</a>
       <a href="{{ route('pengaturanAdmin') }}" class="flex items-center text-gray-600 hover:text-sky-600">Pengaturan Akun</a>
       <a href="{{ route('logout') }}" class="flex items-center text-gray-600 hover:text-sky-600">Logout</a>

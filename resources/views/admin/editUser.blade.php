@@ -40,7 +40,7 @@
                 <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
                 <input type="password" name="password" id="password" 
                        class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-sky-500 focus:border-sky-500"
-                       required>
+                       >
             </div>
 
             <!-- Role -->
@@ -57,7 +57,7 @@
 
             <!-- Tombol -->
             <div class="flex justify-between">
-                <a href="{{redirect()->back()}}"
+                <a href="{{route('penggunaAdmin')}}"
                    class="text-sm text-sky-600 hover:underline">← Kembali</a>
 
                 <button type="submit"
