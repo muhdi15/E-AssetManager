@@ -244,4 +244,14 @@ class SessionController extends Controller
     public function riwayatUser(){
         return view('user/riwayat');
     }
+
+    public function auditorDashboard(){
+        $data = Asset::all();
+        $totalAset = $data->count();
+        $totalAsetBaik = $data->where('kondisi', 'baik')->count();
+        $totalAsetRusakRingan = $data->where('kondisi', 'rusak_ringan')->count();
+        $totalAsetRusakBerat = $data->where('kondisi', 'rusak_berat')->count();
+        $totalAsetHilang = $data->where('kondisi', 'hilang')->count();
+        return view('auditor/dashboard',compact('data', 'totalAset', 'totalAsetBaik', 'totalAsetRusakRingan', 'totalAsetRusakBerat','totalAsetHilang'));
+    }
 }

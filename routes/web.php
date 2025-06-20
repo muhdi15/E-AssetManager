@@ -40,3 +40,8 @@ Route::middleware(['auth', RoleMiddleware::class . ':user'])->group(function () 
     Route::get('/pengaturanUser', [SessionController::class, 'pengaturanUser'])->name('pengaturanUser');
     Route::get('/riwayatUser', [SessionController::class, 'riwayatUser'])->name('riwayatUser');
 });
+
+
+Route::middleware(['auth', RoleMiddleware::class . ':auditor'])->group(function () {
+    Route::get('/auditorDashboard', [SessionController::class, 'auditorDashboard'])->name('auditorDashboard');
+});
