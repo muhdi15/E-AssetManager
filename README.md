@@ -6,8 +6,8 @@
 
 <p align="center">
  <b>Kelas F</b><br>
- <b>M.Fajri Muallim</b><br>
- <b>D0222372</b>
+ <b>Muh.Muhdi Asyry Masdar</b><br>
+ <b>D0222362</b>
 </p>
 
 <p align="center">
